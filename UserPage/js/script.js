@@ -1,19 +1,4 @@
 
-
-// Change this to your deployed backend URL when you host it. 
-const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://localhost:4000/api'
-  : 'http://localhost:4000/api'; // <-- update this after deploying backend
-
-function fullPhotoUrl(path) {
-  if (!path) return 'https://via.placeholder.com/400x300/cccccc/666666?text=No+Photo';
-  if (path.startsWith('http')) return path;
-  // server uploads are served at /uploads/<file>
-  if (path.startsWith('/uploads')) return API_BASE.replace('/api', '') + path;
-  //  treat as a frontend-relative path (e.g. images/..)
-  return path;
-}
-
 function formatDate(dateStr) {
   if (!dateStr) return '—';
   const d = new Date(dateStr);
@@ -26,14 +11,56 @@ function statusClass(status) {
   return 'still-missing';
 }
 
+function fullPhotoUrl(photo) {
+  if (photo) return photo;
+  return 'https://placehold.co/300x300?text=No+Photo';
+}
+
 // FEED logic
+// Sample data lives here directly so the page works as pure frontend,
+// with no fetch/API call and nothing that can throw a "backend" error.
+// Replace this array (or the team's eventual data source) as needed.
+const SAMPLE_PERSONS = [
+  {
+    id: '1',
+    name: 'Maria Santos',
+    age: 24,
+    sex: 'Female',
+    location: 'Quezon City',
+    status: 'Still Missing',
+    lastSeen: '2026-05-12',
+    photo: '',
+    description: 'Last seen wearing a blue jacket near Commonwealth Avenue.'
+  },
+  {
+    id: '2',
+    name: 'Juan Dela Cruz',
+    age: 35,
+    sex: 'Male',
+    location: 'Cebu City',
+    status: 'Found',
+    lastSeen: '2026-03-02',
+    photo: '',
+    description: 'Found safe with relatives in Mandaue.'
+  },
+  {
+    id: '3',
+    name: 'Angela Reyes',
+    age: 17,
+    sex: 'Female',
+    location: 'Davao City',
+    status: 'Closed',
+    lastSeen: '2025-11-20',
+    photo: '',
+    description: 'Case closed after confirmation from local authorities.'
+  }
+];
 
 let allPersons = [];
 let activeStatus = 'All';
 
-async function loadPersons() {
+function loadPersons() {
   const grid = document.getElementById('cardsGrid');
-  grid.innerHTML = '<p style="padding:20px;color:#888;">Loading...</p>';
 
   // safely read optional filter inputs (may not exist on every page)
   const searchEl = document.getElementById('searchInput');
@@ -43,30 +70,26 @@ async function loadPersons() {
   const location = locationEl ? String(locationEl.value) : '';
   const sort = sortEl ? String(sortEl.value) : '';
 
-  const params = new URLSearchParams();
-  if (search) params.append('search', search);
-  if (location) params.append('location', location);
-  if (activeStatus !== 'All') params.append('status', activeStatus);
-  if (sort) params.append('sort', sort);
-
-  try {
-    const res = await fetch(`${API_BASE}/persons?${params.toString()}`);
-    if (!res.ok) throw new Error('Failed to load data');
-    allPersons = await res.json();
-    renderCards(allPersons);
-    populateLocations(allPersons);
-  } catch (err) {
-        // frontend remains functional without a server
-    try {
-      const fallback = await fetch('js/persons.json');
-      if (!fallback.ok) throw new Error('No local data');
-      allPersons = await fallback.json();
-      renderCards(allPersons);
-      populateLocations(allPersons);
-    } catch (err2) {
-      grid.innerHTML = `<div class="empty-state">⚠️ Could not load missing persons.<br>Make sure the backend server is running or include a local data/persons.json file.<br><small>${err.message}</small></div>`;
-    }
+  if (!allPersons.length) {
+    allPersons = SAMPLE_PERSONS;
   }
+
+  let filtered = [...allPersons];
+  if (search) {
+    const query = search.toLowerCase();
+    filtered = filtered.filter(p =>
+      String(p.name || '').toLowerCase().includes(query) ||
+      String(p.description || '').toLowerCase().includes(query) ||
+      String(p.location || '').toLowerCase().includes(query)
+    );
+  }
+  if (location) filtered = filtered.filter(p => p.location === location);
+  if (activeStatus !== 'All') filtered = filtered.filter(p => p.status === activeStatus);
+  if (sort === 'age') filtered.sort((a, b) => (Number(a.age) || 0) - (Number(b.age) || 0));
+  else if (sort === 'lastSeen') filtered.sort((a, b) => new Date(b.lastSeen) - new Date(a.lastSeen));
+
+  renderCards(filtered);
+  populateLocations(allPersons);
 }
 
 function populateLocations(persons) {
@@ -196,22 +219,19 @@ if (form) {
 
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting...'; }
 
-    try {
-      const res = await fetch(`${API_BASE}/tips`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
+    // TODO: wire this up to the backend, e.g.:
+    // const res = await fetch('https://your-api.example.com/tips', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify(payload)
+    // });
+    // const data = await res.json();
+    // if (!res.ok) throw new Error(data.error || 'Something went wrong.');
 
-      if (!res.ok) throw new Error(data.error || 'Something went wrong.');
-
-      if (msg) { msg.textContent = '✅ Thank you! Your tip has been submitted successfully.'; msg.className = 'success'; }
-      form.reset();
-    } catch (err) {
-      if (msg) { msg.textContent = '⚠️ ' + err.message + ' (Is the backend server running?)'; msg.className = 'error'; }
-    } finally {
-      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '✈ Submit'; }
+    if (msg) {
+      msg.textContent = '⚠️ Tip submission isn\'t connected to a backend yet.';
+      msg.className = 'error';
     }
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '✈ Submit'; }
   });
 }
