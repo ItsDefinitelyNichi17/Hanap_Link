@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HanapLink</title>
+<link rel="stylesheet" href="style/style.css">
+<link rel="icon" type="image/png" href="/Assets/Logo5.png">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="brand">
+    <img src="/Assets/Logo5.png" alt="HanapLink logo" class="brand-logo">
+    <div class="brand-text">
+      <div><strong>Hanap<span class="link-accent">Link</span></strong></div>
+      <div class="brand-tagline">Connecting Communities.<br>Finding Hope.</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Home</span></a>
+    <a href="feed.html">Feed</span></a>
+    <a href="contact.html">Contact</span></a>
+    <a href="about.html">About Us</span></a>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>Help bring them home.<br><span class="accent">Together,</span> we can.</h1>
+  <p>HanapLink is a community driven platform that connects people, shares real-time information, and helps locate missing individual faster.</p>
+</section>
+
+<section class="section-card">
+  <h2>How HanapLink Works?</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-icon blue">📝</div>
+      <div><h3>1. Report</h3><p>Submit a missing person report with details.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-icon blue">✅</div>
+      <div><h3>2. Verify</h3><p>Our team verifies the report before publishing.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-icon green">🔔</div>
+      <div><h3>3. Alert</h3><p>The community received real-time alerts and updates.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-icon blue">👥</div>
+      <div><h3>4. Locate</h3><p>Sightings and leads help bring them home faster.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Missing Feed -->
+
+<h1 class="feed-title">Recent Missing Persons</h1>
+
+
+<div class="tabs">
+  <button class="tab-btn active" data-status="All">All</button>
+  <button class="tab-btn" data-status="Still Missing">Still Missing</button>
+  <button class="tab-btn" data-status="Found">Found</button>
+  <button class="tab-btn" data-status="Closed">Closed</button>
+</div>
+
+<div class="cards-grid" id="cardsGrid">
+  <p style="padding:20px;color:#888;">Loading...</p>
+</div>
+
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<section class="cta-banner">
+  <div style="display:flex;align-items:center;">
+    <div class="icon-puzzle">🧩</div>
+    <div>
+      <h3>See Something? Say Something.</h3>
+      <p>Even the smallest information can help bring someone home.</p>
+    </div>
+  </div>
+  <a href="contact.html"><button class="btn">Report a Tip</button></a>
+</section>
+
+<p class="footer-bottom">2026 HanapLink. All rights reserved.</p>
+
+<script src="js/script.js"></script>
+</body>
+</html>
