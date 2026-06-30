@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getDatabase } from "firebase/database";
+
 import path from 'path';
 import dotenv from 'dotenv'
 
@@ -19,7 +19,5 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db  = getDatabase(app)
-
-console.log(app)
-export default db;
+//console.log(app)
+export default app;
