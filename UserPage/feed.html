@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recent Missing Persons - HanapLink</title>
+<link rel="stylesheet" href="style/style.css">
+<link rel="icon" type="image/png" href="/Assets/Logo5.png">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="brand">
+    <img src="/Assets/Logo5.png" alt="HanapLink logo" class="brand-logo">
+    <div class="brand-text">
+      <div><strong>Hanap<span class="link-accent">Link</span></strong></div>
+      <div class="brand-tagline">Connecting Communities.<br>Finding Hope.</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="index.html"><span>Home</span></a>
+    <a href="feed.html"><span>Feed</span></a>
+    <a href="contact.html"><span>Contact</span></a>
+    <a href="about.html"><span>About Us</span></a>
+  </div>
+</nav>
+
+<h1 class="feed-title">Recent Missing Persons</h1>
+
+<div class="filter-bar">
+  <input type="text" id="searchInput" placeholder="🔍 Search by name, location, or keywords...">
+  <select id="locationInput">
+    <option value="">Location</option>
+  </select>
+  <select id="sortInput">
+    <option value="latest">Latest</option>
+    <option value="oldest">Oldest</option>
+  </select>
+  <button class="btn" id="searchBtn">🔍 Search</button>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" data-status="All">All</button>
+  <button class="tab-btn" data-status="Still Missing">Still Missing</button>
+  <button class="tab-btn" data-status="Found">Found</button>
+  <button class="tab-btn" data-status="Closed">Closed</button>
+</div>
+
+<div class="cards-grid" id="cardsGrid">
+  <p style="padding:20px;color:#888;">Loading...</p>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<p class="footer-bottom">2026 HanapLink. All rights reserved.</p>
+
+<script src="js/script.js"></script>
+</body>
+</html>
+</body>
+</html>
