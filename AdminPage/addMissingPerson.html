@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Missing Person</title>
+
+  <!-- Sidebar CSS (reuse mo) -->
+  <link rel="stylesheet" href="style/sidebar.css">
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="style/addMissingPerson.css">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div id="confirmModal" class="modal hidden">
+  <div class="modal-box">
+
+    <h2 id="confirmTitle"></h2>
+    <p id="confirmText"></p>
+
+<div class="modal-actions">
+  <button class="btn cancel" onclick="closeConfirm()">Cancel</button>
+  <button class="btn confirm" id="confirmAction">Confirm</button>
+</div>
+
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- SIDEBAR (reuse mo lang) -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="assets/hanapLinkLogo.png">
+      <div>
+        <h2>HanapLink</h2>
+        <p>Admin Panel</p>
+      </div>
+    </div>
+
+    <ul class="menu">
+      <li>
+  <a href="adminDashboard.html" class="menu-link">
+    <i data-lucide="layout-dashboard"></i>
+    <span>Dashboard</span>
+  </a>
+</li>
+
+      <li>
+  <a href="missingList.html">
+    <i data-lucide="user"></i>
+    <span>Missing Person</span>
+  </a>
+</li>
+    </ul>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOP BAR -->
+   <div class="topbar">
+  <a href="adminDashboard.html" class="breadcrumb-link"><span></span>Dashboard</a>
+  <span class="arrow">></span>
+  <span>Add Missing Person</span>
+</div>
+
+    <h1>Add Missing Person</h1>
+
+    <form id="missingForm">
+
+      <div class="grid">
+
+        <!-- LEFT -->
+        <div class="card">
+          <h2>Personal Information</h2>
+
+          <label>Full Name *</label>
+          <input type="text" required>
+
+          <div class="row">
+            <div>
+              <label>Age *</label>
+              <input type="number" required>
+            </div>
+
+            <div>
+              <label>Gender *</label>
+              <select required>
+                <option value="">Select Gender</option>
+                <textarea placeholder="Select Gender" required></textarea>
+                <option>Male</option>
+                <option>Female</option>
+              </select>
+            </div>
+          </div>
+
+          <label>Photo *</label>
+          <div class="upload-box">
+            <i data-lucide="upload-cloud"></i>
+            <p>Upload Photo</p>
+            <input type="file" accept="image/*" required>
+          </div>
+
+          <label>Description *</label>
+          <textarea placeholder="Additional Description ( Last Seen Wearing... )" required></textarea>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="card">
+          <h2>Last Seen Information</h2>
+
+          <label>Date Last Seen *</label>
+          <input type="date" required>
+
+          <label>Time Last Seen *</label>
+          <input type="time" required>
+
+          <label>Last Seen Location *</label>
+          <textarea placeholder="Enter Last Seen Location" required></textarea>
+          
+
+          <label>Contact Number *</label>
+          <input type="text" required>
+
+          <h2>Status</h2>
+
+          <label>Initial Status *</label>
+          <select required>
+            <option value="">Select Status</option>
+            <option>Missing</option>
+            <option>Found</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- BUTTONS -->
+     <div class="actions">
+  <button type="button" class="cancel" onclick="openConfirm('cancel')">Cancel</button>
+  <button type="button" class="save" onclick="openConfirm('save')">Save</button>
+</div>
+
+    </form>
+
+  </main>
+
+</div>
+
+<script>
+  lucide.createIcons();
+
+  document.getElementById("missingForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    alert("Missing Person Added Successfully!");
+
+    // dito pwede mo i-connect sa backend later
+  });
+</script>
+
+<script>
+let actionType = "";
+
+function openConfirm(type){
+  actionType = type;
+
+  const modal = document.getElementById("confirmModal");
+  const title = document.getElementById("confirmTitle");
+  const text = document.getElementById("confirmText");
+  const confirmBtn = document.getElementById("confirmAction");
+
+  modal.classList.remove("hidden");
+
+  if(type === "cancel"){
+    title.innerText = "Are you sure you want to cancel?";
+     title.style.fontSize = "23px"
+     title.style.marginBottom = "5px";  // bawasan space sa ilalim ng title
+    text.style.marginTop = "2px";      // alisin extra space sa taas ng text
+    text.innerText = "Changes won't be saved.";
+    text.style.color = "white"; text.style.fontSize = "13px";
+    confirmBtn.innerText = "Yes, Cancel";
+    confirmBtn.style.background = "#6b7280";
+    confirmBtn.style.background = "white"; confirmBtn.style.color = "#0b1f44";
+  }
+
+  if(type === "save"){
+    title.innerText = "Save this record?";
+    title.style.fontSize = "23px"
+    text.innerText = "Make sure all details are correct.";
+    text.style.color = "white"; text.style.fontSize = "13px";
+    confirmBtn.innerText = "Save";
+    confirmBtn.style.background = "white"; confirmBtn.style.color = "#0b1f44";
+  }
+
+  confirmBtn.onclick = function(){
+
+    if(actionType === "cancel"){
+      window.location.href = "adminDashboard.html";
+    }
+
+    if(actionType === "save"){
+      alert("Saved successfully!");
+    }
+
+    closeConfirm();
+  };
+}
+
+function closeConfirm(){
+  document.getElementById("confirmModal").classList.add("hidden");
+}
+</script>
+
+</body>
+</html>

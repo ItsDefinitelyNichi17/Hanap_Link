@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HanapLink Admin</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style/sidebar.css">
+  <link rel="stylesheet" href="style/adminDashboard.css">
+  
+  
+
+  <!-- ICONS (Lucide CDN) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="logo">
+     <img src="../assets/hanapLinkLogo.png" alt="logo">
+      <div>
+        <h2>HanapLink</h2>
+        <p>Admin Panel</p>
+      </div>
+    </div>
+<div class="dashboard-container">
+    <ul class="menu">
+      <ul class="menu">
+
+  <!-- DASHBOARD -->
+  <li class="active">
+    <a href="adminDashboard.html" class="menu-link">
+      <i data-lucide="layout-dashboard"></i>
+      <span>Dashboard</span>
+    </a>
+  </li>
+
+  <!-- MISSING PERSON -->
+  <li>
+    <a href="missingList.html" class="menu-link">
+      <i data-lucide="user"></i>
+      <span>Missing Person</span>
+    </a>
+  </li>
+
+</ul>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+<div class="topbar">Dashboard</div>
+<p class="section-label">Overview</p>
+
+    <!-- CARDS -->
+    <div class="cards">
+
+      <div class="card">
+        <div class="icon blue">
+          <i data-lucide="file-text"></i>
+        </div>
+        <div>
+          <h3>Total Missing Persons</h3>
+          <h2>120</h2>
+          <p>All time cases</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon yellow">
+          <i data-lucide="alert-triangle"></i>
+        </div>
+        <div>
+          <h3>Active Cases</h3>
+          <h2>78</h2>
+          <p>Currently missing</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon green">
+          <i data-lucide="check-circle"></i>
+        </div>
+        <div>
+          <h3>Found Cases</h3>
+          <h2>32</h2>
+          <p>Successfully found</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon purple">
+          <i data-lucide="archive"></i>
+        </div>
+        <div>
+          <h3>Archived Cases</h3>
+          <h2>10</h2>
+          <p>No longer active</p>
+        </div>
+      </div>
+
+    </div>
+<p class="section-label">Quick Action</p>
+
+<a href="addMissingPerson.html" class="add-card">
+  <div class="circle">
+    <i data-lucide="plus"></i>
+  </div>
+
+  <div class="add-text">
+    <span>Add Missing Person</span>
+    <p>Add a new missing person record</p>
+  </div>
+</a>
+</div>
+</div>
+  </main>
+
+<script src="admin.js"></script>
+
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

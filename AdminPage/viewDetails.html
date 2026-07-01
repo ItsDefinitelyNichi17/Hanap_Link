@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Details</title>
+
+  <link rel="stylesheet" href="style/sidebar.css">
+  <link rel="stylesheet" href="style/viewDetails.css">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="assets/hanapLinkLogo.png">
+      <div>
+        <h2>HanapLink</h2>
+        <p>Admin Panel</p>
+      </div>
+    </div>
+
+    <ul class="menu">
+      <li>
+        <a href="adminDashboard.html">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <li class="active">
+        <a href="missingList.html">
+          <i data-lucide="user"></i>
+          <span>Missing Person</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      Missing Person > View Details
+    </div>
+
+    <div class="content">
+
+      <!-- PROFILE CARD -->
+      <div class="profile-card">
+        <div class="profile-img"></div>
+
+        <div class="profile-info">
+          <h2 id="name">Name</h2>
+          <span class="status" id="status">Active</span>
+
+          <p><strong>Date Reported:</strong> <span id="date"></span></p>
+          <p><strong>Location:</strong> <span id="location"></span></p>
+          <p><strong>Age:</strong> <span id="age"></span></p>
+        </div>
+      </div>
+
+      <!-- PERSONAL INFO -->
+      <div class="info-box">
+        <h3>Personal Information</h3>
+        <p><strong>Full Name:</strong> <span id="fullName"></span></p>
+        <p><strong>Age:</strong> <span id="age2"></span></p>
+      </div>
+
+      <!-- LAST SEEN -->
+      <div class="info-box">
+        <h3>Last Seen Information</h3>
+        <p><strong>Date:</strong> <span id="date2"></span></p>
+        <p><strong>Location:</strong> <span id="location2"></span></p>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<script>
+  lucide.createIcons();
+
+  const data = JSON.parse(localStorage.getItem("selectedPerson"));
+
+  if(data){
+    document.getElementById("name").innerText = data.name;
+    document.getElementById("fullName").innerText = data.name;
+    document.getElementById("age").innerText = data.age;
+    document.getElementById("age2").innerText = data.age;
+    document.getElementById("location").innerText = data.location;
+    document.getElementById("location2").innerText = data.location;
+    document.getElementById("date").innerText = data.date;
+    document.getElementById("date2").innerText = data.date;
+    document.getElementById("status").innerText = data.status;
+  }
+</script>
+
+</body>
+</html>
