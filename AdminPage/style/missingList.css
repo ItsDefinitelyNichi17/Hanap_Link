@@ -11,6 +11,7 @@ body {
 .main {
   flex: 1;
   padding: 30px;
+  height: calc(100vh - 60px);
 }
 
 /* TOP TITLE */
@@ -28,6 +29,9 @@ body {
   padding: 20px;
   border-radius: 12px;
   border: 1px solid #eee;
+  max-height: calc(100vh - 150px);
+
+  
 }
 
 /* FILTERS */

@@ -11,6 +11,7 @@ body {
 .main {
   flex: 1;
   padding: 30px;
+  height: calc(100vh - 75px);
 }
 
 /* TOPBAR */
@@ -20,7 +21,31 @@ body {
   border-radius: 10px;
   font-weight: bold;
   margin-bottom: 20px;
+  font-size: 16px;
+  text-decoration: none;
 }
+
+.topbar a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 700;
+}
+
+.topbar a:visited {
+  color: #333; /* alisin violet */
+}
+
+
+
+.topbar a:hover {
+  text-decoration: underline; /* lalabas lang pag hover */
+}
+.arrow {
+  margin: 0 8px;
+  color: #888;
+  text-decoration: none;
+}
+
 
 /* CONTENT */
 .content {
@@ -46,6 +71,18 @@ body {
   border-radius: 10px;
 }
 
+/* 🔥 FIX BREADCRUMB LINK */
+.topbar .breadcrumb-link:link,
+.topbar .breadcrumb-link:visited,
+.topbar .breadcrumb-link:active {
+  color: #000;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.topbar .breadcrumb-link:hover {
+  text-decoration: underline;
+}
 .profile-info h2 {
   margin: 0;
 }
