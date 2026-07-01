@@ -21,41 +21,7 @@ function fullPhotoUrl(photo) {
 const fetchAllMissingPersons = await getAllMissingPerson();
 const allMissingPersons = Object.values(fetchAllMissingPersons)
 
-const SAMPLE_PERSONS =  [
-  {
-    id: '1',
-    name: 'Maria Santos',
-    age: 24,
-    sex: 'Female',
-    location: 'Quezon City',
-    status: 'Still Missing',
-    lastSeen: '2026-05-12',
-    photo: '',
-    description: 'Last seen wearing a blue jacket near Commonwealth Avenue.'
-  },
-  {
-    id: '2',
-    name: 'Juan Dela Cruz',
-    age: 35,
-    sex: 'Male',
-    location: 'Cebu City',
-    status: 'Found',
-    lastSeen: '2026-03-02',
-    photo: '',
-    description: 'Found safe with relatives in Mandaue.'
-  },
-  {
-    id: '3',
-    name: 'Angela Reyes',
-    age: 17,
-    sex: 'Female',
-    location: 'Davao City',
-    status: 'Closed',
-    lastSeen: '2025-11-20',
-    photo: '',
-    description: 'Case closed after confirmation from local authorities.'
-  }
-];
+const SAMPLE_PERSONS =  allMissingPersons
 console.log(SAMPLE_PERSONS)
 
 // FEED logic
