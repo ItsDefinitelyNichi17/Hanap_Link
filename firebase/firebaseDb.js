@@ -1,96 +1,106 @@
-//this is for DB
-import app from "./app.js";
-import { getFirestore, addDoc, collection, getDoc, doc, getDocs } from "firebase/firestore";
+// (not app.js — that file relies on process.env, which doesn't exist
+// in the browser, so it can't be used here).
 
-const db = getFirestore(app);
+import { db, rtdb } from "./firebase-config.js";
+import {
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+  addDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  ref,
+  get,
+  push,
+  set
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-export async function getAMissingPerson(){
-
-}
-export async function getAllMissingPerson(){
-
-    const allData = await getDocs(collection(db,"missing_persons"));
-    const dataInObject = {}
-    allData.forEach(element => {
-        dataInObject[element.id] = element.data()
-    })
-
-    return dataInObject  
-}
-
+const COLLECTION_NAME = "missing_persons";
 
 /**
- * AddMissingPerson to the firestore db
- * @param {object} personalInfo 
- * @param {object} status 
- * @param {object} lastSeenInfo 
- * @returns 
+ * Fetch a single missing person by their Firestore document id.
+ * @param {string} id
  */
-export async function addMissingPerson(personalInfo, lastSeenInfo, status){
-    if(personalInfo === null && lastSeenInfo === null && status === null){
-        return;
+export async function getAMissingPerson(id) {
+  try {
+    const snap = await get(ref(rtdb, `${COLLECTION_NAME}/${id}`));
+    if (snap.exists()) {
+      return { id, ...(snap.val() || {}) };
     }
-    const personalInfoArr = [...Object.values(personalInfo), ...Object.values(lastSeenInfo)] 
+  } catch (error) {
+    console.warn("Realtime Database read failed for single item:", error);
+  }
 
-    personalInfoArr.forEach(element => {
-        if(element === undefined || element === null){
-        return `${element} is null or undefined`
-        }
-    });
-
-    const {fullName, age, gender, height, hairColor, eyeColor, distinctMark} = personalInfo
-    const {contactNo,dateLS, timeLS, lsLoc, otherInfo} = lastSeenInfo 
-
-  
-
-    const missingPerInfo = {
-        status : status,
-        personalInformation : {
-            fullName : fullName,
-            age : age,
-            gender : gender,
-            height : height, 
-            hcolor : hairColor,
-            ecolor : eyeColor,
-            distinctMark : distinctMark
-        },
-        Information : {
-            contactNo : contactNo,
-            dateLS : dateLS,
-            timeLS : timeLS,
-            LSloc : lsLoc,
-            otherInfo: otherInfo
-        }
-    }
-
-
-    const docRef = await addDoc(collection(db, "missing_persons"), missingPerInfo);
-
-    console.log(docRef.id)
-
+  const firestoreSnap = await getDoc(doc(db, COLLECTION_NAME, id));
+  if (!firestoreSnap.exists()) return null;
+  return { id: firestoreSnap.id, ...firestoreSnap.data() };
 }
 
- const missing1 = {
-    status : false,
-    personalInfo : {
-        fullName : "nichi",
-        age : 5,
-        gender : "m",
-        height : 32,
-        hairColor : "brown",
-        eyeColor : "brown",
-        distinctMark : "chikinini"
-    },
-    Information : {
-        contactNo : "094342342434",
-        dateLS : Date(),
-        timeLS: 123,
-        lsLoc: "dsaha",
-        otherInfo: "dasd"
+/**
+ * Fetch all missing person records.
+ * Returns an ARRAY (not an object keyed by id) because that's the shape
+ * script.js's renderCards()/filtering logic expects.
+ */
+export async function getAllMissingPerson() {
+  try {
+    const snapshot = await get(ref(rtdb, COLLECTION_NAME));
+    if (snapshot.exists()) {
+      const value = snapshot.val();
+      if (Array.isArray(value)) {
+        return value.map((item, index) => ({ id: item.id || String(index), ...item }));
+      }
+      if (value && typeof value === "object") {
+        return Object.entries(value).map(([id, item]) => ({ id, ...(item || {}) }));
+      }
     }
-} 
+  } catch (error) {
+    console.warn("Realtime Database read failed; trying Firestore fallback:", error);
+  }
 
-//addMissingPerson(missing1.personalInfo, missing1.Information, missing1.status);
-const data = await getAllMissingPerson()
+  const snapshot = await getDocs(collection(db, COLLECTION_NAME));
+  return snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+}
 
-console.log(data)
+/**
+ * Add a missing person report to Firestore.
+ * The shape is FLAT so it matches what the feed cards render directly —
+ * no extra mapping step needed on the read side.
+ *
+ * @param {object} person
+ * @param {string} person.name
+ * @param {number} person.age
+ * @param {string} person.sex
+ * @param {string} person.location
+ * @param {"Still Missing"|"Found"|"Closed"} person.status
+ * @param {string} person.lastSeen  ISO date string, e.g. "2026-05-12"
+ * @param {string} [person.photo]  image URL, optional
+ * @param {string} [person.description]
+ * @returns {Promise<string>} the new document's id
+ */
+export async function addMissingPerson(person) {
+  if (!person || !person.name) {
+    throw new Error("addMissingPerson: 'name' is required");
+  }
+
+  const record = {
+    name: person.name,
+    age: person.age ?? null,
+    sex: person.sex ?? "",
+    location: person.location ?? "",
+    status: person.status ?? "Still Missing",
+    lastSeen: person.lastSeen ?? "",
+    photo: person.photo ?? "",
+    description: person.description ?? ""
+  };
+
+  try {
+    const newRef = push(ref(rtdb, COLLECTION_NAME));
+    await set(newRef, record);
+    return newRef.key;
+  } catch (error) {
+    console.warn("Realtime Database write failed; trying Firestore fallback:", error);
+    const docRef = await addDoc(collection(db, COLLECTION_NAME), record);
+    return docRef.id;
+  }
+}
