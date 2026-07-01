@@ -1,6 +1,6 @@
 //this is for DB
 import app from "./app.js";
-import { getFirestore, addDoc, collection, getDoc, doc, getDocs } from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDoc, doc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const db = getFirestore(app);
 
@@ -10,11 +10,18 @@ export async function getAMissingPerson(){
 export async function getAllMissingPerson(){
 
     const allData = await getDocs(collection(db,"missing_persons"));
-    const dataInObject = {}
-    allData.forEach(element => {
-        dataInObject[element.id] = element.data()
+    let dataInObject;
+    let index  = 1
+    allData.forEach((element)=> {
+        dataInObject = { 
+            ...dataInObject,
+            [index] : {
+                id : element.id,
+                ...element.data()
+            }
+        }
+        index++
     })
-
     return dataInObject  
 }
 
@@ -26,11 +33,11 @@ export async function getAllMissingPerson(){
  * @param {object} lastSeenInfo 
  * @returns 
  */
-export async function addMissingPerson(personalInfo, lastSeenInfo, status){
-    if(personalInfo === null && lastSeenInfo === null && status === null){
+export async function addMissingPerson(info){
+    if(info === null){
         return;
     }
-    const personalInfoArr = [...Object.values(personalInfo), ...Object.values(lastSeenInfo)] 
+    const personalInfoArr = [Object.values(info)] 
 
     personalInfoArr.forEach(element => {
         if(element === undefined || element === null){
@@ -38,29 +45,17 @@ export async function addMissingPerson(personalInfo, lastSeenInfo, status){
         }
     });
 
-    const {fullName, age, gender, height, hairColor, eyeColor, distinctMark} = personalInfo
-    const {contactNo,dateLS, timeLS, lsLoc, otherInfo} = lastSeenInfo 
-
-  
+    const {name, age, sex, location, status, lastSeen, photo, description} = info
 
     const missingPerInfo = {
-        status : status,
-        personalInformation : {
-            fullName : fullName,
-            age : age,
-            gender : gender,
-            height : height, 
-            hcolor : hairColor,
-            ecolor : eyeColor,
-            distinctMark : distinctMark
-        },
-        Information : {
-            contactNo : contactNo,
-            dateLS : dateLS,
-            timeLS : timeLS,
-            LSloc : lsLoc,
-            otherInfo: otherInfo
-        }
+        name: name,
+        age: age,
+        sex: sex, 
+        location: location, 
+        status: status,
+        lastseen: lastSeen,
+        photo: photo,
+        description: description
     }
 
 
@@ -71,26 +66,18 @@ export async function addMissingPerson(personalInfo, lastSeenInfo, status){
 }
 
  const missing1 = {
-    status : false,
-    personalInfo : {
-        fullName : "nichi",
-        age : 5,
-        gender : "m",
-        height : 32,
-        hairColor : "brown",
-        eyeColor : "brown",
-        distinctMark : "chikinini"
-    },
-    Information : {
-        contactNo : "094342342434",
-        dateLS : Date(),
-        timeLS: 123,
-        lsLoc: "dsaha",
-        otherInfo: "dasd"
-    }
-} 
+    id: '1',
+    name: 'Maria Santos',
+    age: 24,
+    sex: 'Female',
+    location: 'Quezon City',
+    status: 'Still Missing',
+    lastSeen: '2026-05-12',
+    photo: '',
+    description: 'Last seen wearing a blue jacket near Commonwealth Avenue.'
+}
 
-//addMissingPerson(missing1.personalInfo, missing1.Information, missing1.status);
+
 const data = await getAllMissingPerson()
 
-console.log(data)
+//addMissingPerson(missing1)
