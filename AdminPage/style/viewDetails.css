@@ -1,0 +1,115 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  background: #f4f6fb;
+}
+
+.container {
+  display: flex;
+}
+
+.main {
+  flex: 1;
+  padding: 30px;
+  height: calc(100vh - 75px);
+}
+
+/* TOPBAR */
+.topbar {
+  background: #f1f1f1;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.topbar a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 700;
+}
+
+.topbar a:visited {
+  color: #333; /* alisin violet */
+}
+
+
+
+.topbar a:hover {
+  text-decoration: underline; /* lalabas lang pag hover */
+}
+.arrow {
+  margin: 0 8px;
+  color: #888;
+  text-decoration: none;
+}
+
+
+/* CONTENT */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* PROFILE CARD */
+.profile-card {
+  display: flex;
+  gap: 20px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.profile-img {
+  width: 120px;
+  height: 120px;
+  background: #ddd;
+  border-radius: 10px;
+}
+
+/* 🔥 FIX BREADCRUMB LINK */
+.topbar .breadcrumb-link:link,
+.topbar .breadcrumb-link:visited,
+.topbar .breadcrumb-link:active {
+  color: #000;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.topbar .breadcrumb-link:hover {
+  text-decoration: underline;
+}
+.profile-info h2 {
+  margin: 0;
+}
+
+.status {
+  display: inline-block;
+  margin: 5px 0 10px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  background: #ffe5e5;
+  color: red;
+}
+
+/* INFO BOX */
+.info-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.info-box h3 {
+  margin-bottom: 10px;
+}
+
+.info-box p {
+  font-size: 14px;
+  margin: 5px 0;
+}

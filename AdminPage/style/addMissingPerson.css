@@ -1,0 +1,324 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  background: #f4f6fb;
+}
+
+.container {
+  display: flex;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOPBAR */
+.topbar {
+  background: #f1f1f1;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.topbar a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 700;
+}
+
+.arrow {
+  margin: 0 8px;
+  color: #888;
+}
+
+/* TITLE */
+h1 {
+  margin-bottom: 15px;
+  margin-top: 10px;
+  font-size: 22px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.5fr 350px;
+  height: 300px;
+  gap: 25px;
+  align-items: stretch;
+   min-height: 300px;
+}
+
+input, select, textarea {
+
+  padding: 9px;
+  font-size: 13px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #2563eb;
+}
+
+select:invalid {
+  color: gray;
+}
+/* CARD */
+.card {
+  background: white;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+}
+
+.card h2 {
+  margin-bottom: 10px;
+}
+
+.upload-box {
+  cursor: pointer;
+}
+
+.upload-box svg {
+  color: #2563eb; /* blue */
+}
+.card {
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+}
+
+.required{
+  color: red;
+}
+
+.actions {
+  margin-top: 15px; /* 🔥 MAGIC */
+}
+
+/* FORM */
+label {
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+input, select, textarea {
+  padding: 10px;
+  margin-top: 1px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+select {
+  padding: 10px 10px 10px 6px;
+  color: #9ca3af;
+}
+
+select:valid {
+  color: #111827;
+}
+
+textarea {
+  width: 95%;
+  resize: none;
+  padding: 10px;
+ min-height: 15px;
+}
+
+.status-title + label {
+  margin-top: 2px;
+}
+
+/* ROW */
+.row {
+  display: flex;
+  gap: 40px;
+}
+
+.row > div:first-child {
+  flex: 0.1; /* Age mas maliit */
+}
+
+.row > div:last-child {
+ width:80px; /* Gender mas malaki */
+}
+
+/* UPLOAD */
+.upload-box {
+  border: 2px dashed #d1d5db;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  background: #f9fafb;
+}
+
+.upload-box input {
+  display: none;
+}
+
+.status-title {
+  margin-top: 10px; /* adjust mo (0–10px) */
+}
+
+/* BUTTONS */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+}
+
+.cancel {
+  padding: 10px 20px;
+  border: none;
+  background: #eee;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.save {
+  padding: 10px 20px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.breadcrumb-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
+/* SEARCH BOX */
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 8px;
+  gap: 8px;
+  background: white;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+/* INPUTS STYLE */
+.filters input,
+.filters select {
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 8px;
+  background: white;
+}
+
+/* ACTION BUTTON BOX */
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-box {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-box:hover {
+  background: #f1f1f1;
+}
+
+.action-box.delete {
+  border-color: red;
+}
+
+/* STATUS COLORS */
+.status.active {
+  color: red;
+  background: #ffe5e5;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.status.found {
+  color: green;
+  background: #e6ffe6;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+   backdrop-filter: blur(2px);
+}
+
+.modal-box {
+  background: #0b1f44;
+  color: white;
+  padding: 35px;
+  border-radius: 19px;
+  width: 400px;
+  text-align: center;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  flex: 1;
+  padding: 13px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  border: 0.5px solid rgba(255, 255, 255, 0.4);
+  margin-top: 25px
+}
+
+.btn.cancel {
+  background: #6b7280;
+  color: white;
+}
+
+.btn.confirm {
+  background: white;
+  color: #2563eb;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+
+

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Missing Person</title>
+
+  <!--LINKS-->
+  <link rel="stylesheet" href="style/sidebar.css">
+  <link rel="stylesheet" href="style/missingList.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- MODAL -->
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+
+    <button class="close-btn" onclick="closeModal()">✕</button>
+
+    <h2 id="modalTitle">Are you sure?</h2>
+    <p id="modalDesc">This action cannot be undone.</p>
+
+    <!-- INFO -->
+    <div class="modal-info" id="modalInfo"></div>
+
+    <div class="modal-actions">
+      <button class="btn cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn confirm" id="confirmBtn">Confirm</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="assets/hanapLinkLogo.png">
+      <div>
+        <h2>HanapLink</h2>
+        <p>Admin Panel</p>
+      </div>
+    </div>
+
+    <ul class="menu">
+      <li>
+        <a href="adminDashboard.html">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <li class="active">
+        <a href="missingList.html">
+          <i data-lucide="user"></i>
+          <span>Missing Person</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TITLE (ISA LANG) -->
+    <div class="topbar">
+      Missing Person
+    </div>
+
+    <!-- CARD -->
+    <div class="card">
+
+      <h2>Reports</h2>
+
+     <div class="filters">
+
+  <!-- SEARCH NAME WITH ICON -->
+  <div class="search-box">
+  
+    <input type="text" id="searchName" placeholder="Search by name">
+    
+  </div>
+
+  <!-- STATUS -->
+  <select id="statusFilter">
+    <option value="">Status</option>
+    <option value="MISSING">Missing</option>
+    <option value="FOUND">Found</option>
+  </select>
+
+  <!-- LOCATION (INPUT NA) -->
+  <input type="text" id="searchLocation" placeholder="Location">
+
+  <!-- DATE -->
+  <input type="date" id="dateFilter">
+
+  <!-- RESET -->
+  <button class="reset" id="resetBtn">Reset Filters</button>
+</div>
+
+      <!-- TABLE -->
+      <table>
+
+        <thead>
+          <tr>
+            <th>Photo</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Last Seen</th>
+            <th>Status</th>
+            <th>Date Reported</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+  <tbody id="tableBody"></tbody>
+
+
+      </table>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+  lucide.createIcons();
+  
+</script>
+
+    <script>
+lucide.createIcons();
+
+let currentIndex = null;
+let currentAction = "";
+
+function openModal(index, action){
+  currentIndex = index;
+  currentAction = action;
+
+  const item = data[index];
+
+  document.getElementById("modal").classList.remove("hidden");
+
+  document.getElementById("modalInfo").innerHTML = `
+    <strong>${item.name}</strong><br>
+    Age: ${item.age}<br>
+    Location: ${item.location}<br>
+    Date: ${item.date}
+  `;
+
+  const confirmBtn = document.getElementById("confirmBtn");
+
+  if(action === "delete"){
+    document.getElementById("modalTitle").innerText = "Delete this record?";
+    confirmBtn.innerText = "Delete";
+    confirmBtn.style.background = "#f25c87";
+    confirmBtn.style.color = "darkred";
+  }
+
+  if(action === "found"){
+    document.getElementById("modalTitle").innerText = "Mark as FOUND?";
+    confirmBtn.innerText = "Yes, Found";
+    confirmBtn.style.background = "#87f2ae";
+    confirmBtn.style.color = "darkgreen";
+  }
+}
+
+function closeModal(){
+  document.getElementById("modal").classList.add("hidden");
+}
+
+
+document.getElementById("confirmBtn").onclick = function(){
+
+  if(currentAction === "delete"){
+    data.splice(currentIndex,1);
+  }
+
+  if(currentAction === "found"){
+    data[currentIndex].status = "FOUND";
+  }
+
+  renderTable(data);
+  closeModal();
+}
+
+
+// SAMPLE DATA
+const data = [
+  {name:"Juan Dela Cruz", age:76, location:"Pasay City", date:"January 7, 2026", status:"MISSING"},
+  {name:"Kiel Anthony Villanueva", age:21, location:"Manila", date:"March 12, 2026", status:"MISSING"},
+  {name:"Francine Joy Mabutin", age:19, location:"Laguna", date:"April 1, 2026", status:"FOUND"},
+  {name:"Nina San Buenaventura", age:24, location:"Cebu City", date:"February 18, 2026", status:"MISSING"},
+  {name:"Kim Jackson Chin", age:30, location:"Davao City", date:"June 10, 2026", status:"MISSING"}
+];
+
+const tableBody = document.getElementById("tableBody");
+
+// RENDER FUNCTION
+function renderTable(list){
+  tableBody.innerHTML = "";
+
+  list.forEach((item, index) => {
+    tableBody.innerHTML += `
+      <tr>
+        <td><div class="img"></div></td>
+        <td>${item.name}</td>
+        <td>${item.age}</td>
+        <td>${item.date}<br><span>${item.location}</span></td>
+        <td><span class="status ${item.status.toLowerCase()}">${item.status}</span></td>
+        <td>${item.date}</td>
+        <td class="actions">
+
+  <div class="action-box view" onclick="viewItem(${index})">
+    <i data-lucide="eye"></i>
+  </div>
+
+  <div class="action-box edit" onclick="editItem(${index})">
+    <i data-lucide="edit"></i>
+  </div>
+<div class="action-box found" onclick="openModal(${index}, 'found')">
+  <i data-lucide="check-circle"></i>
+</div>
+
+<div class="action-box delete" onclick="openModal(${index}, 'delete')">
+  <i data-lucide="trash"></i>
+</div>
+
+</td>
+      </tr>
+    `;
+  });
+
+  lucide.createIcons();
+}
+
+// INITIAL LOAD
+renderTable(data);
+
+// SEARCH + FILTER
+function filterData(){
+  const name = document.getElementById("searchName").value.toLowerCase();
+  const location = document.getElementById("searchLocation").value.toLowerCase();
+  const status = document.getElementById("statusFilter").value;
+  const date = document.getElementById("dateFilter").value;
+
+  const filtered = data.filter(item => {
+    return (
+      item.name.toLowerCase().includes(name) &&
+      item.location.toLowerCase().includes(location) &&
+      (status === "" || item.status === status) &&
+      (date === "" || item.date === date)
+    );
+  });
+
+  renderTable(filtered);
+}
+
+// EVENT LISTENERS
+document.getElementById("searchName").addEventListener("input", filterData);
+document.getElementById("searchLocation").addEventListener("input", filterData);
+document.getElementById("statusFilter").addEventListener("change", filterData);
+document.getElementById("dateFilter").addEventListener("change", filterData);
+
+// RESET
+document.getElementById("resetBtn").addEventListener("click", () => {
+  document.getElementById("searchName").value = "";
+  document.getElementById("searchLocation").value = "";
+  document.getElementById("statusFilter").value = "";
+  document.getElementById("dateFilter").value = "";
+  renderTable(data);
+});
+
+
+// ACTIONS
+function deleteItem(index){
+  if(confirm("Are you sure you want to delete this record?")){
+    data.splice(index,1);
+    renderTable(data);
+  }
+}
+
+function markFound(index){
+  if(confirm("Mark this person as FOUND?")){
+    data[index].status = "FOUND";
+    renderTable(data);
+  }
+}
+
+function viewItem(index){
+  const item = data[index];
+
+  // store data temporarily
+  localStorage.setItem("selectedPerson", JSON.stringify(item));
+
+  // redirect to view page
+  window.location.href = "viewDetails.html";
+}
+
+function editItem(index){
+  alert("Editing: " + data[index].name);
+}
+</script>
+</body>
+</html>
