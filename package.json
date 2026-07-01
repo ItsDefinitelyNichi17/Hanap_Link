@@ -1,14 +1,14 @@
 {
   "dependencies": {
-    "dotenv": "^17.4.2"
+    "dotenv": "^17.4.2",
+    "firebase": "^12.15.0"
   },
   "name": "hanap_link",
   "version": "1.0.0",
   "description": "---",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node firebase/firebaseDb.js"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/ItsDefinitelyNichi17/Hanap_Link/issues"
   },
